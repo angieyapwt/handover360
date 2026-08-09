@@ -13,7 +13,7 @@
   <link rel="manifest" href="manifest.json" />
   <script>
     (() => {
-      const build = "19";
+      const build = "21";
       const key = "handover360-build";
       if (localStorage.getItem(key) === build) return;
       const unregister = "serviceWorker" in navigator
@@ -24,11 +24,11 @@
         : Promise.resolve();
       Promise.all([unregister, clearCaches]).finally(() => {
         localStorage.setItem(key, build);
-        if (!location.search.includes("fresh=19")) location.replace("./?fresh=19");
+        if (!location.search.includes("fresh=21")) location.replace("./?fresh=21");
       });
     })();
   </script>
-  <link rel="stylesheet" href="styles.css?v=19" />
+  <link rel="stylesheet" href="styles.css?v=21" />
 </head>
 <body>
   <header class="topbar">
@@ -116,7 +116,7 @@
         <section class="editor-panel" id="reviewPanel" hidden>
           <p class="eyebrow">STEP 4 OF 4</p><h1>Review & export</h1><p class="panel-intro">Check the summary, then create a professional PDF snapshot.</p>
           <div id="reviewSummary" class="review-summary"></div>
-          <div class="export-card"><div><p class="eyebrow">READY TO SHARE</p><h2>Generate condition report</h2><p>Create a clean PDF containing the property information, selected-room checklist and photo observations.</p><label class="pdf-option"><input id="includeDisclaimer" type="checkbox" /><span><strong>Include optional disclaimer page</strong><small>Adds an evidence-use notice and Handover360 call to action at the end.</small></span></label></div><button id="generatePdf" class="button primary large">Download PDF</button></div>
+          <div class="export-card"><div><p class="eyebrow">READY TO SHARE</p><h2>Generate condition report</h2><p>Create a clean PDF containing the property information, selected-room checklist and photo observations.</p><label class="pdf-option"><input id="includeDisclaimer" type="checkbox" /><span><strong>Include optional property services page</strong><small>Adds a professional rental-services introduction and your selected contact details.</small></span></label><label class="pdf-contact-choice"><span>Contacts to show</span><select id="optionalPageContacts"><option value="both">Angie Yap &amp; Amethyst Teo</option><option value="angie">Angie Yap only</option><option value="amethyst">Amethyst Teo only</option></select></label></div><button id="generatePdf" class="button primary large">Download PDF</button></div>
           <div class="review-actions"><button id="backupReport" class="button secondary">Download report backup</button><button id="duplicateReport" class="button secondary">Duplicate as new report</button></div>
           <div class="panel-footer"><button class="button ghost" data-prev="observations">← Back</button><button class="button primary" id="finishReport">Done</button></div>
         </section>
@@ -145,6 +145,6 @@
 
   <div id="toast" class="toast" role="status"></div>
   <script src="vendor/pdf-lib.min.js"></script>
-  <script src="app.js?v=19"></script>
+  <script src="app.js?v=21"></script>
 </body>
 </html>

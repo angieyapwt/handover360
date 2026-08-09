@@ -31,3 +31,7 @@
 .checklist-remarks>span{font-size:13px;font-weight:700;color:var(--green)}
 .checklist-remarks textarea{min-height:92px;background:#fff}
 .date-preview{color:var(--green);font-size:11px;margin-top:-2px}.date-preview.invalid{color:#a23e32}
+
+/* Build 20: optional services-page contact selection */
+.pdf-contact-choice{display:grid;grid-template-columns:125px minmax(220px,340px);align-items:center;gap:10px;margin-top:14px;color:#fff;font-size:12px;font-weight:700}.pdf-contact-choice select{padding:9px 11px;background:#fff;color:var(--ink)}
+@media(max-width:620px){.pdf-contact-choice{grid-template-columns:1fr;gap:6px}.pdf-contact-choice select{font-size:14px}}
