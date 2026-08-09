@@ -1,6 +1,6 @@
 {
-  "name": "HandoverX Property Condition Reports",
-  "short_name": "HandoverX",
+  "name": "Handover360 Property Condition Reports",
+  "short_name": "Handover360",
   "description": "Local-first residential condition reporting for Singapore property handovers.",
   "start_url": "./",
   "display": "standalone",

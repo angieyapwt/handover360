@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#12352f" />
   <meta name="description" content="Local-first residential condition reports for Singapore property handovers." />
-  <meta property="og:title" content="HandoverX" />
+  <meta property="og:title" content="Handover360" />
   <meta property="og:description" content="Clear evidence. Calm handovers." />
   <meta property="og:image" content="og.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <title>HandoverX</title>
+  <title>Handover360</title>
   <link rel="manifest" href="manifest.json" />
   <script>
     (() => {
-      const build = "17";
-      const key = "handoverx-build";
+      const build = "19";
+      const key = "handover360-build";
       if (localStorage.getItem(key) === build) return;
       const unregister = "serviceWorker" in navigator
         ? navigator.serviceWorker.getRegistrations().then(items => Promise.all(items.map(item => item.unregister())))
@@ -24,15 +24,15 @@
         : Promise.resolve();
       Promise.all([unregister, clearCaches]).finally(() => {
         localStorage.setItem(key, build);
-        if (!location.search.includes("fresh=17")) location.replace("./?fresh=17");
+        if (!location.search.includes("fresh=19")) location.replace("./?fresh=19");
       });
     })();
   </script>
-  <link rel="stylesheet" href="styles.css?v=17" />
+  <link rel="stylesheet" href="styles.css?v=19" />
 </head>
 <body>
   <header class="topbar">
-    <button class="brand" data-view="home" aria-label="HandoverX home"><span class="brand-mark">HX</span><span>HandoverX</span></button>
+    <button class="brand" data-view="home" aria-label="Handover360 home"><span class="brand-mark">360</span><span>Handover360</span></button>
     <div class="top-actions">
       <span id="saveStatus" class="save-status">Saved on this device</span>
       <button id="newReportTop" class="button primary">+ New report</button>
@@ -49,7 +49,7 @@
           <div class="hero-actions">
             <button id="newReportHero" class="button primary large">Create a report</button>
             <button id="importButton" class="button secondary large">Restore backup</button>
-            <input id="importInput" type="file" accept="application/json,.handoverx" hidden />
+            <input id="importInput" type="file" accept="application/json,.handover360,.verity,.handoverx" hidden />
           </div>
         </div>
         <div class="privacy-card">
@@ -92,7 +92,8 @@
             <label class="full"><span>Property address *</span><textarea id="address" rows="3" placeholder="Block, street, unit number, postal code"></textarea></label>
             <label><span>Handover date</span><input id="handoverDate" type="text" inputmode="numeric" maxlength="8" placeholder="DDMMYYYY" autocomplete="off" /><small id="handoverDateDisplay" class="date-preview">Enter as DDMMYYYY</small></label>
             <label><span>Prepared for</span><input id="preparedFor" placeholder="Tenant or landlord name" /></label>
-            <label><span>Prepared by</span><input id="preparedBy" placeholder="Your name" /></label>
+            <label><span>Prepared by</span><select id="preparedBy"><option>Angie Yap</option><option>Amethyst Teo</option><option selected>Angie Yap &amp; Amethyst Teo</option></select></label>
+            <label class="full"><span>Additional property photos (Google Drive link)</span><input id="additionalPhotosLink" type="url" inputmode="url" placeholder="https://drive.google.com/..." /><small>This link will appear as “View Additional Photos” in the PDF.</small></label>
             <label class="full"><span>General notes</span><textarea id="generalNotes" rows="4" placeholder="Access limitations, cleaning in progress, utilities unavailable, or other context"></textarea></label>
             <fieldset class="full room-selector"><legend>Rooms included in this report *</legend><p>Choose the areas in this property. Only these rooms will appear in the checklist and observation list.</p><div id="roomSelector" class="room-selector-grid"></div><div class="custom-room-row"><input id="customRoomName" placeholder="Enter another room name" /><button type="button" id="addRoomSelection" class="button secondary">+ Add room</button></div></fieldset>
           </div>
@@ -115,7 +116,7 @@
         <section class="editor-panel" id="reviewPanel" hidden>
           <p class="eyebrow">STEP 4 OF 4</p><h1>Review & export</h1><p class="panel-intro">Check the summary, then create a professional PDF snapshot.</p>
           <div id="reviewSummary" class="review-summary"></div>
-          <div class="export-card"><div><p class="eyebrow">READY TO SHARE</p><h2>Generate condition report</h2><p>Create a clean PDF containing the property information, selected-room checklist and photo observations.</p><label class="pdf-option"><input id="includeDisclaimer" type="checkbox" /><span><strong>Include optional disclaimer page</strong><small>Adds an evidence-use notice and HandoverX call to action at the end.</small></span></label></div><button id="generatePdf" class="button primary large">Download PDF</button></div>
+          <div class="export-card"><div><p class="eyebrow">READY TO SHARE</p><h2>Generate condition report</h2><p>Create a clean PDF containing the property information, selected-room checklist and photo observations.</p><label class="pdf-option"><input id="includeDisclaimer" type="checkbox" /><span><strong>Include optional disclaimer page</strong><small>Adds an evidence-use notice and Handover360 call to action at the end.</small></span></label></div><button id="generatePdf" class="button primary large">Download PDF</button></div>
           <div class="review-actions"><button id="backupReport" class="button secondary">Download report backup</button><button id="duplicateReport" class="button secondary">Duplicate as new report</button></div>
           <div class="panel-footer"><button class="button ghost" data-prev="observations">← Back</button><button class="button primary" id="finishReport">Done</button></div>
         </section>
@@ -144,6 +145,6 @@
 
   <div id="toast" class="toast" role="status"></div>
   <script src="vendor/pdf-lib.min.js"></script>
-  <script src="app.js?v=17"></script>
+  <script src="app.js?v=19"></script>
 </body>
 </html>

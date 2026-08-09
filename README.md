@@ -1,6 +1,6 @@
-# HandoverX
+# Handover360
 
-HandoverX is a mobile- and desktop-friendly property condition reporting app. Reports and photos are stored only in the browser on the current device.
+Handover360 is a mobile- and desktop-friendly property condition reporting app. Reports and photos are stored only in the browser on the current device.
 
 ## Put it on GitHub Pages
 
