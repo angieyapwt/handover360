@@ -1,5 +1,5 @@
-const CACHE = "handover360-v21";
-const ASSETS = ["./", "./index.html", "./styles.css?v=21", "./app.js?v=21", "./manifest.json", "./og.png", "./vendor/pdf-lib.min.js"];
+const CACHE = "handover360-v22";
+const ASSETS = ["./", "./index.html", "./styles.css?v=22", "./app.js?v=22", "./manifest.json", "./og.png", "./vendor/pdf-lib.min.js"];
 self.addEventListener("install", event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting())));
 self.addEventListener("activate", event => event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key)))).then(() => self.clients.claim())));
 self.addEventListener("fetch", event => {
