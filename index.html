@@ -13,7 +13,7 @@
   <link rel="manifest" href="manifest.json" />
   <script>
     (() => {
-      const build = "25";
+      const build = "26";
       const key = "handover360-build";
       if (localStorage.getItem(key) === build) return;
       const unregister = "serviceWorker" in navigator
@@ -24,11 +24,11 @@
         : Promise.resolve();
       Promise.all([unregister, clearCaches]).finally(() => {
         localStorage.setItem(key, build);
-        if (!location.search.includes("fresh=25")) location.replace("./?fresh=25");
+        if (!location.search.includes("fresh=26")) location.replace("./?fresh=26");
       });
     })();
   </script>
-  <link rel="stylesheet" href="styles.css?v=25" />
+  <link rel="stylesheet" href="styles.css?v=26" />
 </head>
 <body>
   <header class="topbar">
@@ -77,7 +77,7 @@
         <button class="back-button" id="backHome">← All reports</button>
         <div class="step-list">
           <button class="step active" data-step="details"><span>1</span><div><strong>Property details</strong><small>Address & parties</small></div></button>
-          <button class="step" data-step="checklist"><span>2</span><div><strong>Room checklist</strong><small>Condition overview</small></div></button>
+          <button class="step" data-step="checklist" id="checklistStep"><span>2</span><div><strong>Room checklist</strong><small>Condition overview</small></div></button>
           <button class="step" data-step="observations"><span>3</span><div><strong>Observations</strong><small>Comments & photos</small></div></button>
           <button class="step" data-step="review"><span>4</span><div><strong>Review & export</strong><small>Create PDF</small></div></button>
         </div>
@@ -90,14 +90,14 @@
           <p class="eyebrow">STEP 1 OF 4</p><h1>Property details</h1><p class="panel-intro">Start with the essentials. You can create multiple reports for the same address.</p>
           <div class="form-card">
             <label class="full"><span>Property address *</span><textarea id="address" rows="3" placeholder="Block, street, unit number, postal code"></textarea></label>
-            <label><span>Handover date</span><input id="handoverDate" type="text" inputmode="numeric" maxlength="8" placeholder="DDMMYYYY" autocomplete="off" /><small id="handoverDateDisplay" class="date-preview">Enter as DDMMYYYY</small></label>
-            <label><span>Prepared for</span><input id="preparedFor" placeholder="Tenant or landlord name" /></label>
-            <label><span>Prepared by</span><select id="preparedBy"><option>Angie Yap</option><option>Amethyst Teo</option><option selected>Angie Yap &amp; Amethyst Teo</option></select></label>
-            <label class="full"><span>Additional property photos (Google Drive link)</span><input id="additionalPhotosLink" type="url" inputmode="url" placeholder="https://drive.google.com/..." /><small>This link will appear as “View Additional Photos” in the PDF.</small></label>
+            <label><span id="reportDateLabel">Handover date</span><input id="handoverDate" type="text" inputmode="numeric" maxlength="8" placeholder="DDMMYYYY" autocomplete="off" /><small id="handoverDateDisplay" class="date-preview">Enter as DDMMYYYY</small></label>
+            <label class="handover-only"><span>Prepared for</span><input id="preparedFor" placeholder="Tenant or landlord name" /></label>
+            <label class="handover-only"><span>Prepared by</span><select id="preparedBy"><option>Angie Yap</option><option>Amethyst Teo</option><option selected>Angie Yap &amp; Amethyst Teo</option></select></label>
+            <label class="full handover-only"><span>Additional property photos (Google Drive link)</span><input id="additionalPhotosLink" type="url" inputmode="url" placeholder="https://drive.google.com/..." /><small>This link will appear as “View Additional Photos” in the PDF.</small></label>
             <label class="full"><span>General notes</span><textarea id="generalNotes" rows="4" placeholder="Access limitations, cleaning in progress, utilities unavailable, or other context"></textarea></label>
-            <fieldset class="full room-selector"><legend>Rooms included in this report *</legend><p>Choose the areas in this property. Only these rooms will appear in the checklist and observation list.</p><div id="roomSelector" class="room-selector-grid"></div><div class="custom-room-row"><input id="customRoomName" placeholder="Enter another room name" /><button type="button" id="addRoomSelection" class="button secondary">+ Add room</button></div></fieldset>
+            <fieldset class="full room-selector handover-only"><legend>Rooms included in this report *</legend><p>Choose the areas in this property. Only these rooms will appear in the checklist and observation list.</p><div id="roomSelector" class="room-selector-grid"></div><div class="custom-room-row"><input id="customRoomName" placeholder="Enter another room name" /><button type="button" id="addRoomSelection" class="button secondary">+ Add room</button></div></fieldset>
           </div>
-          <div class="panel-footer"><span></span><button class="button primary" data-next="checklist">Continue to checklist →</button></div>
+          <div class="panel-footer"><span></span><button class="button primary" id="detailsContinue" data-next="checklist">Continue to checklist →</button></div>
         </section>
 
         <section class="editor-panel" id="checklistPanel" hidden>
@@ -107,7 +107,7 @@
         </section>
 
         <section class="editor-panel" id="observationsPanel" hidden>
-          <div class="heading-actions"><div><p class="eyebrow">STEP 3 OF 4</p><h1>Observations</h1><p class="panel-intro">Each observation can include a comment and up to two photos.</p></div><button id="addObservation" class="button primary">+ Add observation</button></div>
+          <div class="heading-actions"><div><p class="eyebrow">STEP 3 OF 4</p><h1 id="conditionsHeading">Observations</h1><p class="panel-intro">Each condition can include a comment and up to two photos.</p></div><button id="addObservation" class="button primary">+ Add observation</button></div>
           <div id="observationList" class="observation-list"></div>
           <div id="observationEmpty" class="empty-state compact"><div class="empty-icon">◎</div><h3>No observations added</h3><p>Add the first condition, defect or item you want recorded.</p><button id="emptyAddObservation" class="button primary">Add observation</button></div>
           <div class="panel-footer"><button class="button ghost" data-prev="checklist">← Back</button><button class="button primary" data-next="review">Review report →</button></div>
@@ -128,12 +128,20 @@
     <form method="dialog" id="observationForm">
       <div class="modal-head"><div><p class="eyebrow">CONDITION RECORD</p><h2 id="observationDialogTitle">Add observation</h2></div><button class="icon-button" value="cancel" aria-label="Close">×</button></div>
       <div class="modal-body">
-        <label><span>Room / area *</span><select id="observationRoom"></select></label>
+        <label id="observationRoomField"><span>Room / area *</span><select id="observationRoom"></select></label>
         <label><span>Comment *</span><textarea id="observationComment" rows="4" placeholder="Describe the existing condition or defect clearly"></textarea></label>
         <div class="photo-field"><div><strong>Photos</strong><span>Up to 2 photos. Large images are compressed automatically.</span></div><div class="photo-source-actions"><label class="upload-box camera-box"><input id="cameraInput" type="file" accept="image/*" capture="environment" hidden /><span class="upload-icon">◉</span><strong>Take photo</strong><small>Open rear camera</small></label><label class="upload-box"><input id="photoInput" type="file" accept="image/*" multiple hidden /><span class="upload-icon">＋</span><strong>Choose from gallery</strong><small>Select existing photos</small></label></div><div id="photoPreview" class="photo-preview"></div></div>
       </div>
       <div class="modal-footer"><button value="cancel" class="button ghost">Cancel</button><button id="saveObservation" value="default" class="button primary">Save observation</button></div>
     </form>
+  </dialog>
+
+  <dialog id="reportTypeDialog" class="modal report-type-modal">
+    <div class="modal-head"><div><p class="eyebrow">NEW REPORT</p><h2>What are you documenting?</h2></div><button id="closeReportType" class="icon-button" aria-label="Close">×</button></div>
+    <div class="report-type-options">
+      <button type="button" class="report-type-option" data-report-type="handover"><span class="report-type-icon">→</span><strong>Handover report</strong><small>Full room selection, checklist, conditions and photos.</small></button>
+      <button type="button" class="report-type-option" data-report-type="handback"><span class="report-type-icon">←</span><strong>Handback report</strong><small>Property details, general notes, conditions and photos.</small></button>
+    </div>
   </dialog>
 
   <dialog id="annotationDialog" class="modal annotation-modal">
@@ -145,6 +153,6 @@
 
   <div id="toast" class="toast" role="status"></div>
   <script src="vendor/pdf-lib.min.js"></script>
-  <script src="app.js?v=25"></script>
+  <script src="app.js?v=26"></script>
 </body>
 </html>
