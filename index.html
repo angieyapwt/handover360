@@ -13,7 +13,7 @@
   <link rel="manifest" href="manifest.json" />
   <script>
     (() => {
-      const build = "24";
+      const build = "25";
       const key = "handover360-build";
       if (localStorage.getItem(key) === build) return;
       const unregister = "serviceWorker" in navigator
@@ -24,11 +24,11 @@
         : Promise.resolve();
       Promise.all([unregister, clearCaches]).finally(() => {
         localStorage.setItem(key, build);
-        if (!location.search.includes("fresh=24")) location.replace("./?fresh=24");
+        if (!location.search.includes("fresh=25")) location.replace("./?fresh=25");
       });
     })();
   </script>
-  <link rel="stylesheet" href="styles.css?v=24" />
+  <link rel="stylesheet" href="styles.css?v=25" />
 </head>
 <body>
   <header class="topbar">
@@ -130,7 +130,7 @@
       <div class="modal-body">
         <label><span>Room / area *</span><select id="observationRoom"></select></label>
         <label><span>Comment *</span><textarea id="observationComment" rows="4" placeholder="Describe the existing condition or defect clearly"></textarea></label>
-        <div class="photo-field"><div><strong>Photos</strong><span>Up to 2 photos. Large images are compressed automatically.</span></div><label class="upload-box"><input id="photoInput" type="file" accept="image/*" multiple hidden /><span class="upload-icon">＋</span><strong>Select photos</strong><small>JPG, PNG or phone image</small></label><div id="photoPreview" class="photo-preview"></div></div>
+        <div class="photo-field"><div><strong>Photos</strong><span>Up to 2 photos. Large images are compressed automatically.</span></div><div class="photo-source-actions"><label class="upload-box camera-box"><input id="cameraInput" type="file" accept="image/*" capture="environment" hidden /><span class="upload-icon">◉</span><strong>Take photo</strong><small>Open rear camera</small></label><label class="upload-box"><input id="photoInput" type="file" accept="image/*" multiple hidden /><span class="upload-icon">＋</span><strong>Choose from gallery</strong><small>Select existing photos</small></label></div><div id="photoPreview" class="photo-preview"></div></div>
       </div>
       <div class="modal-footer"><button value="cancel" class="button ghost">Cancel</button><button id="saveObservation" value="default" class="button primary">Save observation</button></div>
     </form>
@@ -145,6 +145,6 @@
 
   <div id="toast" class="toast" role="status"></div>
   <script src="vendor/pdf-lib.min.js"></script>
-  <script src="app.js?v=24"></script>
+  <script src="app.js?v=25"></script>
 </body>
 </html>
